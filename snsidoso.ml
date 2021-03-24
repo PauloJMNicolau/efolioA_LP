@@ -1,19 +1,14 @@
-open registo
+(** 
+  * Paulo Nicolau (UAB estudante 1800465) - 2021
+  * Código sobre licença MIT
+  * 
+  * Programa que lê os dados de um ficheiro txt estruturado com dados sobre idosos
+  * Carrega a informação e depois analisa os dados em memória 
+  * Da análise o programa retorna o grau de risco de cada idoso
+  * Guarda a informação num ficheiro txt
+*)
 
 (*Estrutura de Dados de um Registo*)
-type registiIdoso ={
-  nome : string;
-  ndoenca : int;
-  medicamento : int;
-  acidente : bool;
-  doenca : bool;
-  sozinho : bool;
-  autonomia : bool;
-  desportoj : bool;
-  autofisica : bool;
-  fisica : bool;
-  profissaorisco : string;
-}
 type registo ={
   mutable nome: string;
   mutable ndoenca : int;
@@ -28,7 +23,9 @@ type registo ={
   mutable profissaorisco : string;
 }
 
-
+(**********************
+  * Converter Valores *
+  *********************)
 
 (* Converte a string recebida em valor booleano
    - Sim(s) em True 
@@ -40,7 +37,9 @@ let obterFactorBool valor =(
     false 
 );;
 
-(*Obtém o valor em formato string, que se encontra na cabelça da lista recebida *)
+(*Obtém o valor em formato string, que se encontra na cabelça da lista recebida 
+  - Retorna String do facto - caso receba algo
+  - String vazia - caso lista vazia *)
 let obterValorString lista = (
   match lista with
   | [] -> " "
@@ -48,10 +47,16 @@ let obterValorString lista = (
 );;
 
 
-(*Converte a String recebida em valor Inteiro *)
+(*Converte a String em valor Inteiro 
+  Retorna o valor inteiro da string recebida *)
 let obterValorInteiro valor = (
   int_of_string valor
 );;
+
+
+(***************************************
+ * Funções para trabalhar com registos *
+ **************************************)
 
 (* Altera os valores no registo *)
 let alteraRegisto reg valor tipo = (
@@ -70,11 +75,13 @@ let alteraRegisto reg valor tipo = (
   | _ -> reg
 );;
 
+(* Preencher o registo com os valores recebidos *)
 let preencherRegisto facto reg index =(
-  let dados = (String.split_on_char ':' facto) in (
-  match dados with
-  | [] -> reg
-  | h::t -> alteraRegisto reg (obterValorString t) (10-index)
+  let dados = (String.split_on_char ':' facto) in (               (* Separa o factor recebido pelo caracter ":" *)
+  match dados with                                                (* Compara o dado com: *)
+  | [] -> reg                                                     (* Lista vazia - Retorna o registo*)
+  | h::t -> alteraRegisto reg (obterValorString t) (10-index)     (* Lista - Executa a alteração do registo *)
+                                                                  (* Envia registo, string na cauda da lista *)
   )
 );;
 
