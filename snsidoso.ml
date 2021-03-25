@@ -208,7 +208,7 @@ let analiseProfissaoRisco valor =(
               match indice with
               | 0 -> (["Alto"])
               | 1 -> (["Alto";"Medio"])
-              | 2 -> (["Medio"; "Baixo"])
+              | 2 -> (["Baixo"])
               | _ -> ([])
             )
           | _ -> percorrer (t, indice+1);
