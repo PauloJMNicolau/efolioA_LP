@@ -23,6 +23,91 @@ type registo ={
   mutable profissaorisco : string;
 }
 
+
+(**********************************
+ * Funções para analise dos dados *
+ *********************************)
+
+ (* Retorna Lista de Valores Possiveis para o valor em nDoencas *)
+let analiseNDoencas valor=(
+  match valor with
+  | 0 | 1 -> (["Baixo"])
+  | 2 -> (["Medio";"Baixo"])
+  | _ -> (["Alto";"Baixo"])  
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Medicamento *)
+let analiseMedicamento valor=(
+  match valor with
+  | 0 | 1 | 2-> (["Medio";"Baixo"])
+  | 3 -> (["Medio"])
+  | _ -> (["Alto"])  
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Acidentes *)
+let analiseAcidentes valor =(
+  match valor with
+  |true -> (["Alto";"Medio"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Doenca*)
+let analiseDoenca valor =(
+  match valor with
+  |true -> (["Alto";"Medio"])
+  |false -> (["Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Sozinho*)
+let analiseSozinho valor =(
+  match valor with
+  |true -> (["Alto";"Medio"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Autonomia*)
+let analiseAutonomia valor =(
+  match valor with
+  |true -> (["Medio";"Baixo"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em DesportoJ*)
+let analiseDesportoj valor =(
+  match valor with
+  |true -> (["Alto";"Baixo"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em AutoFisica*)
+let analiseAutofisica valor =(
+  match valor with
+  |true -> (["Medio";"Baixo"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em Fisica*)
+let analiseFisica valor =(
+  match valor with
+  |true -> (["Alto";"Baixo"])
+  |false -> (["Alto"; "Medio"; "Baixo"])
+);;
+
+(* Retorna Lista de Valores Possiveis para o valor em ProfissaoRisco*)
+let analiseProfissaoRisco valor =(
+  if valor = "alto" then
+    (["Alto"])
+  else if valor = "medio" then
+    (["Alto";"Medio"])
+  else if valor ="baixo" then
+    (["Medio"; "Baixo"])
+  else
+    ([])
+);;
+
+
+
+
 (**********************
   * Converter Valores *
   *********************)
@@ -46,7 +131,6 @@ let obterValorString lista = (
   | h::t -> h
 );;
 
-
 (*Converte a String em valor Inteiro 
   Retorna o valor inteiro da string recebida *)
 let obterValorInteiro valor = (
@@ -58,7 +142,9 @@ let obterValorInteiro valor = (
  * Funções para trabalhar com registos *
  **************************************)
 
-(* Altera os valores no registo *)
+(* Altera os valores no registo 
+  - Executa opção de alteração recebida
+  - Retorna Registo alterado *)
 let alteraRegisto reg valor tipo = (
   match tipo with
   | 0 -> (reg.nome <- valor;reg)
@@ -80,12 +166,11 @@ let preencherRegisto facto reg index =(
   let dados = (String.split_on_char ':' facto) in (               (* Separa o factor recebido pelo caracter ":" *)
   match dados with                                                (* Compara o dado com: *)
   | [] -> reg                                                     (* Lista vazia - Retorna o registo*)
-  | h::t -> alteraRegisto reg (obterValorString t) (10-index)     (* Lista - Executa a alteração do registo *)
-                                                                  (* Envia registo, string na cauda da lista *)
+  | h::t -> alteraRegisto reg (obterValorString t) (10-index)     (* Lista - Executa a alteração do registo 
+                                                                     Envia registo, string na cauda da lista e valor da opção a executar 
+                                                                     (com base no indice da lista) *)
   )
 );;
-
-
 
 (*Separa os elementos da linha *)
 let separar linha = (
@@ -96,13 +181,21 @@ let separar linha = (
   let rec  obter (factos, reg) = (                                                          (* Função Recursiva que percorre os elementos da linha *)
     match factos with                                                                       (* Compara o factor recebido *)
     | [] -> reg                                                                             (* Vazio - retorna o registo recebido *)
-    | h::t ->                                                                               (* Lista de elementos: *)
-        ignore (obter (t, reg));                                                            (* Executa a funçãor ecursivamente *) 
+    | h::t ->(
+      let (_:registo) = (obter (t, reg)) in
+         
+                                                                                   (* Lista de elementos: *)
+                                                                     (* Executa a funçãor ecursivamente *) 
         (preencherRegisto h reg (List.length t))                                            (* Executa função que preenche o registo (envia o registo e o factor) *)
+      )
     )
   in obter (factos, reg);                                                                   (* Executa a função recursiva que percorre a lista*)
 );;
 
+
+(**************************************
+ * Funções para a leitura do ficheiro *
+ *************************************)
 
 (*Função para ler o ficheiro
   * Percorre cada linha e adiciona a linha numa lista
@@ -122,29 +215,45 @@ let lerFicheiro ficheiro: registo list =(
         lerLinha []                               (*Chama a função de ler linhas*)
 );;
 
-(* Ler os dados do ficheiro *)
-let dadosLista = lerFicheiro "dados.txt";;
+
+(*******************************
+ * Funções para imprimir dados *
+ ******************************)
 
 (* Imprimir o conteudo do Registo *)
 let imprimirRegisto reg = (
-  ignore (print_string (reg.nome^" "));
-  ignore (print_string ((string_of_int reg.ndoenca)^" "));
-  ignore (print_string ((string_of_int reg.medicamento)^" "));
-  ignore (print_string ((string_of_bool reg.doenca)^" "));
-  ignore (print_string ((string_of_bool reg.acidente)^" "));
-  ignore (print_string ((string_of_bool reg.sozinho)^" "));
-  ignore (print_string ((string_of_bool reg.autonomia)^" "));
-  ignore (print_string ((string_of_bool reg.desportoj)^" "));
-  ignore (print_string ((string_of_bool reg.autofisica)^" "));
-  ignore (print_string ((string_of_bool reg.fisica)^" "));
-  ignore (print_endline reg.profissaorisco);
-  
+  let (_:bool)= 
+    (print_string (reg.nome^" "); 
+    (print_string ((string_of_int reg.ndoenca)^" "));
+    (print_string ((string_of_int reg.medicamento)^" "));
+    (print_string ((string_of_bool reg.doenca)^" "));
+    (print_string ((string_of_bool reg.acidente)^" "));
+    (print_string ((string_of_bool reg.sozinho)^" "));
+    (print_string ((string_of_bool reg.autonomia)^" ")); 
+    (print_string ((string_of_bool reg.desportoj)^" "));
+    (print_string ((string_of_bool reg.autofisica)^" ")); 
+    (print_string ((string_of_bool reg.fisica)^" ")); 
+    (print_endline reg.profissaorisco);true
+    )in true
 );;
 
 
 let rec imprimir lista = (
     match lista with
     | [] -> []
-    | h::t -> imprimirRegisto h; imprimir t;
+    | h::t -> (let (_list) = imprimirRegisto h in imprimir t;)
 );;
-imprimir dadosLista;;
+
+let rec imprimirList lista = (
+    match lista with
+    | [] -> []
+    | h::t -> print_string (h^" "); imprimirList t;
+);;
+
+(************************
+ * Execução do Programa *
+ ***********************)
+
+let dadosLista = lerFicheiro "dados.txt";;    (* Ler os dados do ficheiro *)
+imprimir dadosLista;;                         (* Imprimir Valores *)
+imprimirList (analisenDoencas 3);;
