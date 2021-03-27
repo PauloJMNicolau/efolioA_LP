@@ -1,5 +1,0 @@
-João;2;4;n;n;n;s;s;s;s;medio
-Joaquim;1;2;s;n;n;s;s;s;s;alto
-Joana;0;2;s;n;n;s;n;s;n;baixo
-Francisca;1;2;s;n;n;n;n;n;n;alto
-Luis;3;4;n;s;n;n;s;n;n;alto

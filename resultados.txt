@@ -1,0 +1,8 @@
+O idoso João não possui risco
+O idoso Joaquim não possui risco
+O idoso Joana não possui risco
+O idoso Francisca não possui risco
+O idoso Luis possui risco Alto
+O idoso Manuel não possui risco
+O idoso Roberto possui risco Medio
+O idoso Ana não possui risco

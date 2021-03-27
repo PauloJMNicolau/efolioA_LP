@@ -3,3 +3,6 @@ idoso:Joaquim;ndoencas:1;medicamento:2;acidente:s;doenca:n;sozinho:n;autonomia:s
 idoso:Joana;ndoencas:0;medicamento:2;acidente:s;doenca:n;sozinho:n;autonomia:s;desportoj:n;autofisica:s;fisica:n;profissaorisco:baixo
 idoso:Francisca;ndoencas:1;medicamento:2;acidente:s;doenca:n;sozinho:n;autonomia:n;desportoj:n;autofisica:n;fisica:n;profissaorisco:alto
 idoso:Luis;ndoencas:3;medicamento:4;acidente:n;doenca:s;sozinho:n;autonomia:n;desportoj:s;autofisica:n;fisica:n;profissaorisco:alto
+idoso:Manuel;ndoencas:3;medicamento:2;acidente:n;doenca:s;sozinho:s;autonomia:s;desportoj:n;autofisica:n;fisica:n;profissaorisco:baixo
+idoso:Roberto;ndoencas:2;medicamento:3;acidente:s;doenca:n;sozinho:n;autonomia:s;desportoj:n;autofisica:s;fisica:n;profissaorisco:medio
+idoso:Ana;ndoencas:2;medicamento:2;acidente:s;doenca:n;sozinho:n;autonomia:s;desportoj:s;autofisica:s;fisica:s;profissaorisco:baixo

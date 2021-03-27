@@ -1,2 +1,0 @@
-idoso:joao;ndoencas:2
-idoso:joana;ndoenca:6
