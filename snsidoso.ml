@@ -134,6 +134,7 @@ let lerFicheiro ficheiro: registo list =(
  (* Retorna Lista de Valores Possiveis para o valor em nDoencas *)
  let analiseNDoencas valor=(
   match valor with
+  _ when valor < 0 -> ([])
   | 0 | 1 -> (["Baixo"])                      (*Graus de risco para valores menores ou iguais a 1*)
   | 2 -> (["Medio";"Baixo"])                  (*Graus de risco para valorr 2*)
   | _ -> (["Alto";"Baixo"])                   (*Graus de risco para valores superiores a 2*)
@@ -142,6 +143,7 @@ let lerFicheiro ficheiro: registo list =(
 (* Retorna Lista de Valores Possiveis para o valor em Medicamento *)
 let analiseMedicamento valor=(
   match valor with
+  _ when valor < 0 -> ([])
   | 0 | 1 | 2-> (["Medio";"Baixo"])           (*Graus de risco para valores menores ou iguais a 2*)
   | 3 -> (["Medio"])                          (*Graus de risco para o valor 3*)
   | _ -> (["Alto"])                           (*Graus de risco para valores maiores que 3*)
