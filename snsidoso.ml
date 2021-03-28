@@ -105,27 +105,39 @@ let separar linha = (
 );;
 
 
-(**************************************
- * Funções para a leitura do ficheiro *
- *************************************)
+(******************************************
+ * Funções para a trabalhar com ficheiros *
+ *****************************************)
 
 (*Função para ler o ficheiro
   * Percorre cada linha e adiciona a linha numa lista
   * retorna a lista de linhas (lista de strings)
 *)
 let lerFicheiro ficheiro: registo list =(
-  let ler = open_in ficheiro in                   (*Abrir o ficheiro*)
-  let try_read () =                               
-    try                                           (*Verificar: *)
-      Some (input_line ler)                       (*Leu algo *)
-    with End_of_file -> None in                   (*Chegou ao fim do ficheiro *)
-    let rec lerLinha lista =                      (*Função que lê a linha recursivamente *)
-      match try_read() with                       (*Verifica: *)
-      | Some linha -> lerLinha ((separar linha)::lista)     (*-Leu linha - separa os parametros da linha numa lista e adiciona essa lista como elemento numa outra lista*)
-      | None -> close_in ler;                     (*-Não leu nada e fecha o ficheiro*)
-      List.rev lista in                           (*Inverte os elementos da lista*)
-        lerLinha []                               (*Chama a função de ler linhas*)
+  let ler = open_in ficheiro in                                 (*Abrir o ficheiro*)
+  let leitura () =                    
+    try                                                         (*Verificar: *)
+      Some (input_line ler)                                     (*Leu algo *)
+    with End_of_file -> None in                                 (*Chegou ao fim do ficheiro *)
+      let rec lerLinha lista = (                                (*Função que lê a linha recursivamente *)
+        match leitura() with                                    (*Verifica: *)
+        | Some linha -> lerLinha (lista@[(separar linha)])      (*-Leu linha - separa os parametros da linha numa lista e adiciona essa lista como elemento numa outra lista*)
+        | None -> close_in ler;lista                            (*-Não leu nada fecha o ficheiro e retorna a lista *)                                   (*Inverte os elementos da lista*)
+      )in lerLinha []                                           (*Chama a função de ler linhas fornecendo uma lista vazia como parametro*)
 );;
+
+(* Função para gravar valores num ficheiro *)
+let gravarResultado ficheiro resultado=(
+let oc = open_out ficheiro in                               (* Abre o ficheiro para escrita *)
+  let rec escrever lista =(                                 (* Percorre a lista de resultados*)
+    match lista with
+    | [] -> Printf.fprintf oc "%s" "";                      (* Não escreve no final do ficheiro *)
+    | h::t -> Printf.fprintf oc "%s\n" h; escrever t        (* Escreve resultado*)
+  )in escrever resultado;
+  close_out oc;                                             (* Fecha o ficheiro*)
+  "Dados Gravados";
+);;
+
 
 (**********************************
  * Funções para analise dos dados *
@@ -286,25 +298,15 @@ let rec gerarMensagens lista = (
 (*Cria lista com as mensagens de resultados*)
 let rec resultados lista = (
   match lista with
-  | [] -> []
-  | h::t -> gerarMensagens h::resultados t
+  | [] -> []                                                            (* Retorna uma lista vazia *)
+  | h::t -> gerarMensagens h::resultados t                              (* Cria uma mensagem com os valores e executa recursivamente*)
 );;
 
 (*Imprimir mensagens de resultados*)
 let rec imprimirResultado lista = (
   match lista with
-  | [] -> "Não existem mais dados analisados!"
-  | h::t -> print_endline h; imprimirResultado t
-);;
-
-let gravarResultado ficheiro resultado=(
-let oc = open_out ficheiro in                               (* Abre o ficheiro para escrita *)
-  let rec escrever lista =(                                 (* Percorre a lista de resultados*)
-    match lista with
-    | [] -> Printf.fprintf oc "%s" "";                      (* Não escreve no final do ficheiro *)
-    | h::t -> Printf.fprintf oc "%s\n" h; escrever t        (* Escreve resultado*)
-  )in escrever resultado;
-  close_out oc;                                             (* Fecha o ficheiro*)
+  | [] -> "Não existem mais dados analisados!"                          (* Mensagem para quando a lista está vazia *) 
+  | h::t -> print_endline h; imprimirResultado t                        (* Escreve mensagem de resultado e executa recursivamente*)
 );;
 
 
@@ -312,7 +314,18 @@ let oc = open_out ficheiro in                               (* Abre o ficheiro p
  * Execução do Programa *
  ***********************)
 
-let dadosLista = lerFicheiro "dados.txt";;    (* Ler os dados do ficheiro *)
-let res = resultados (analisar dadosLista);;  (* Analisar os dados e imprimir*)
-imprimirResultado (res);;                     (* Imprimir no Ecrã os resultados*) 
-gravarResultado "resultados.txt" res;;        (* Gravar resultados num ficheiro *)
+ (* Função principal do Programa *)
+let run = (
+  let () = (print_string ("Nome do ficheiro de dados: ")) in
+    let ficheiro = read_line() in                                       (* Pedir nome do ficheiro ao utilizador *)
+      match Sys.file_exists(ficheiro) with                              (* Verifica se ficheiro existe *)
+      | false -> print_endline ("Ficheiro não existe!")                  (* Ficheiro não existe - Imprime mensagem de erro *)
+      | true -> (                                                       (* Ficheiro Existe *)
+        let rec executar file=                                          (* Executa analise dos dados *)
+          let dadosLista = lerFicheiro file in                          (* Ler os dados do ficheiro *)
+            let res = resultados (analisar dadosLista) in               (* Analisar os dados e imprimir*)
+              print_endline(imprimirResultado (res));                   (* Imprimir no Ecrã os resultados*) 
+              print_endline(gravarResultado "resultados.txt" res)       (* Gravar resultados num ficheiro *)
+        in executar ficheiro;
+      )
+);;

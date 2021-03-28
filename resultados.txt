@@ -6,3 +6,8 @@ O idoso Luis possui risco Alto
 O idoso Manuel não possui risco
 O idoso Roberto possui risco Medio
 O idoso Ana não possui risco
+O idoso Rodrigo possui risco Baixo
+O idoso Laura possui risco Baixo
+O idoso Teresa possui risco Baixo
+O idoso Maria possui risco Alto
+O idoso Pedro não possui risco
