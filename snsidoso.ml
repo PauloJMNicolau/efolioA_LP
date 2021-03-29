@@ -252,7 +252,7 @@ let rec inter lista1 lista2 =(
 
 (*Analisa os valores que estão no registo*)
 let rec analisaRegisto reg=(
-  reg.nome::
+  reg.nome::                                                                              (* Coloca o nome do idoso numa lista. O resultado das operações de conjuntos seguntes é adicionados a essa lista *)
     let rec comparar (cj, indice) =(    
       match indice with                                                                   (*Compara o valor do indice*)
       | 0 -> comparar (inter cj (analiseNDoencas reg.ndoenca), (indice+1))                (*Se for o primeiro elemento realiza interceção do conjunto inicial com o conjunto de ndoenca (correspondente ao valor no registo)*)
