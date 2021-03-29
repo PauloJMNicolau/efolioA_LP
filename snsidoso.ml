@@ -1,6 +1,5 @@
 (** 
   * Paulo Nicolau (UAB estudante 1800465) - 2021
-  * Código sobre licença MIT
   * 
   * Programa que lê os dados de um ficheiro txt estruturado com dados sobre idosos
   * Carrega a informação e depois analisa os dados em memória 
