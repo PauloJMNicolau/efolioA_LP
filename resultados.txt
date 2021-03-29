@@ -11,3 +11,7 @@ O idoso Laura possui risco Baixo
 O idoso Teresa possui risco Baixo
 O idoso Maria possui risco Alto
 O idoso Pedro não possui risco
+O idoso Ricardo possui risco Medio
+O idoso Rute possui risco Medio
+O idoso Nuno possui risco Alto
+O idoso Raquel possui risco Alto

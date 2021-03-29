@@ -11,3 +11,7 @@ idoso:Laura;ndoencas:1;medicamento:0;acidente:n;doenca:n;sozinho:n;autonomia:s;d
 idoso:Teresa;ndoencas:5;medicamento:1;acidente:n;doenca:n;sozinho:n;autonomia:n;desportoj:s;autofisica:s;fisica:n;profissaorisco:baixo
 idoso:Maria;ndoencas:10;medicamento:7;acidente:n;doenca:s;sozinho:s;autonomia:n;desportoj:s;autofisica:n;fisica:n;profissaorisco:medio
 idoso:Pedro;ndoencas:5;medicamento:3;acidente:s;doenca:n;sozinho:n;autonomia:n;desportoj:n;autofisica:s;fisica:n;profissaorisco:medio
+idoso:Ricardo;ndoencas:2;medicamento:1;acidente:s;doenca:n;sozinho:n;autonomia:n;desportoj:n;autofisica:s;fisica:n;profissaorisco:medio
+idoso:Rute;ndoencas:2;medicamento:3;acidente:n;doenca:s;sozinho:s;autonomia:n;desportoj:n;autofisica:n;fisica:n;profissaorisco:medio
+idoso:Nuno;ndoencas:5;medicamento:7;acidente:s;doenca:s;sozinho:n;autonomia:n;desportoj:s;autofisica:n;fisica:n;profissaorisco:alto
+idoso:Raquel;ndoencas:7;medicamento:5;acidente:s;doenca:s;sozinho:n;autonomia:n;desportoj:n;autofisica:n;fisica:n;profissaorisco:medio
